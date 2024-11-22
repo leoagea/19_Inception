@@ -1,0 +1,21 @@
+services:
+  wordpress:
+    build:
+      context: ./srcs/requirements/wordpress
+    container_name: wordpress
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: mariadb
+      DOMAIN_NAME: ${DOMAIN_NAME}
+    volumes:
+      - wordpress_data:/var/www/html
+    depends_on:
+      - mariadb
+    networks:
+      - app_network
+
+volumes:
+  wordpress_data:
+    driver: local
