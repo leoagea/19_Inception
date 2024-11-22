@@ -29,6 +29,16 @@ services:
       - mariadb_data:/var/lib/mysql
     networks:
       - app_network
+  nginx:
+    build:
+      context: ./requirements/nginx
+    container_name: nginx
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    networks:
+      - app_network
 
 networks:
   app_network:

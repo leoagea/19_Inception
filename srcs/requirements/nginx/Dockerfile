@@ -1,24 +1,23 @@
-FROM alpine:3.19
+# NGINX Dockerfile
+FROM alpine:3.16
 
-RUN apk update
-RUN apk upgrade
+# Install NGINX and OpenSSL
+RUN apk add --no-cache nginx openssl
 
-RUN apk add nginx
-RUN apk add vim
-RUN apk add curl
+# Create necessary directories
+RUN mkdir -p /etc/nginx/conf.d /etc/nginx/ssl /var/www/html
 
-RUN mkdir -p /run/nginx /etc/ssl/private /etc/ssl/certs
-RUN apk add openssl
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /etc/ssl/private/nginx-selfsigned.key \
-    -out /etc/ssl/certs/nginx-selfsigned.crt \
-    -subj "/C=FR/ST=State/L=City/O=Organization/OU=Unit/CN=localhost"
+# Copy configuration and certificates
+COPY conf/default.conf /etc/nginx/conf.d/default.conf
+COPY ssl/nginx.crt /etc/nginx/ssl/nginx.crt
+COPY ssl/nginx.key /etc/nginx/ssl/nginx.key
 
-RUN ls -la /etc/ssl/certs/nginx-selfsigned.crt /etc/ssl/private/nginx-selfsigned.key
-
-RUN mkdir -p /etc/nginx/conf.d
-COPY conf /etc/nginx/nginx.conf
-
+# Expose port 443 for HTTPS
 EXPOSE 443
 
-CMD ["nginx", "-g", "daemon off;"]
+# Copy setup script
+COPY tools/setup.sh /usr/local/bin/setup.sh
+RUN chmod +x /usr/local/bin/setup.sh
+
+# Start NGINX using the setup script
+CMD ["setup.sh"]
