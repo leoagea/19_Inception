@@ -4,7 +4,8 @@ FROM alpine:3.16
 # Met à jour les paquets et installe les dépendances nécessaires
 RUN apk update && apk add \
   wget \
-  php7.4 \
+  php7 \
+  php7-fpm \
   mariadb-client \
   && rm -rf /var/lib/apt/lists/*
 
