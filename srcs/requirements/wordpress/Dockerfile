@@ -1,5 +1,5 @@
 # Utilise l'image Debian Bullseye comme base
-FROM debian:Bullseye
+FROM debian:bullseye
 
 # Met à jour les paquets et installe les dépendances nécessaires
 RUN apt-get update && apt-get install -y \
