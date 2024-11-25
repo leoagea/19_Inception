@@ -1,5 +1,5 @@
 # Utilise l'image Debian Bullseye comme base
-FROM debian:3.16
+FROM alpine:3.16
 
 # Met à jour les paquets et installe les dépendances nécessaires
 RUN apk update && apk add \
