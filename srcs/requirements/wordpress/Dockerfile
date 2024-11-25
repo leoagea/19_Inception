@@ -1,26 +1,60 @@
-# WordPress Dockerfile
-FROM alpine:3.16
+# Utilise l'image Debian Bullseye comme base
+FROM debian:3.16
 
-# Install dependencies
-RUN apk add --no-cache php php-fpm php-mysqli curl wget tar
+# Met à jour les paquets et installe les dépendances nécessaires
+RUN apk update && apk add \
+  wget \
+  php7.4-fpm \
+  php7.4 \
+  php7.4-mysql \
+  php7.4-curl \
+  php7.4-gd \
+  php7.4-intl \
+  php7.4-mbstring \
+  php7.4-soap \
+  php7.4-xml \
+  php7.4-xmlrpc \
+  php7.4-zip \
+  mariadb-client \
+  && rm -rf /var/lib/apt/lists/*
 
-# Create WordPress directory
-RUN mkdir -p /var/www/html
+# Crée et prépare le répertoire de l'application
+RUN mkdir /app
+WORKDIR /app
 
-# Download and unpack WordPress
-RUN wget https://wordpress.org/latest.tar.gz -O /tmp/wordpress.tar.gz && \
-    tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html --strip-components=1 && \
-    rm /tmp/wordpress.tar.gz
+# Ajoute un groupe et un utilisateur pour WordPress
+RUN groupadd wordpress && useradd -g wordpress wordpress
 
-# Copy the WordPress configuration template
-COPY conf/wp-config.php /var/www/html/wp-config.php
+# Télécharger et installer WP-CLI
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+  && chmod +x wp-cli.phar \
+  && mv wp-cli.phar /bin/wp
 
-# Copy setup script
-COPY tools/setup.sh /usr/local/bin/setup.sh
-RUN chmod +x /usr/local/bin/setup.sh
+# Ajouter le script de démarrage
+ADD tools/run.sh /
+RUN chmod +x /run.sh
 
-# Expose php-fpm port
-EXPOSE 9000
+# Copier le fichier de configuration PHP-FPM
+COPY tools/php-fpm.conf /etc/php/7.4/fpm/
 
-# Entrypoint for setup and php-fpm
-CMD ["setup.sh"]
+# Prépare PHP-FPM
+RUN ln -s $(which php-fpm7.4) /bin/php-fpm \
+  && mkdir -p /run/php/ \
+  && chown -R wordpress:wordpress /run/php/ \
+  && mkdir -p /usr/logs/php-fpm \
+  && chown -R wordpress:wordpress /usr/logs/php-fpm \
+  && chmod -R 755 /usr/logs/php-fpm
+
+# Télécharger et préparer WordPress
+RUN wget https://wordpress.org/wordpress-6.2.2.tar.gz \
+  && tar -zxvf wordpress-6.2.2.tar.gz \
+  && mv wordpress/* . \
+  && rm -rf wordpress wordpress-6.2.2.tar.gz \
+  && chown -R wordpress:wordpress /app \
+  && chmod -R 755 /app
+
+# Définir l'utilisateur et le groupe sous lesquels les commandes suivantes s'exécuteront
+USER wordpress:wordpress
+
+# Définir le point d'entrée
+ENTRYPOINT ["/setup.sh"]
