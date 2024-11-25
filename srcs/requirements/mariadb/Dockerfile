@@ -1,20 +1,12 @@
-# MariaDB Dockerfile
 FROM alpine:3.16
 
-# Install MariaDB
-RUN apk add --no-cache mariadb mariadb-client
+RUN apk update && apk add \
+    mariadb-server \
+  && rm -rf /var/lib/apt/lists/*
 
-# Create necessary directories
-RUN mkdir -p /var/lib/mysql /run/mysqld && \
-    chown -R mysql:mysql /var/lib/mysql /run/mysqld
+COPY tools/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-# Copy initialization script and setup script
-COPY tools/init.sql /docker-entrypoint-initdb.d/
-COPY tools/setup.sh /usr/local/bin/setup.sh
-RUN chmod +x /usr/local/bin/setup.sh
+COPY tools/setup.sh /
 
-# Expose MariaDB default port
-EXPOSE 3306
-
-# Entrypoint to setup and run MariaDB
-CMD ["setup.sh"]
+RUN chmod +x /setup.sh
+ENTRYPOINT ["bash", "setup.sh"]

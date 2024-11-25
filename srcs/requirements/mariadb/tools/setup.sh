@@ -1,21 +1,10 @@
 #!/bin/sh
 
-# Ensure the MySQL data directory exists
-if [ ! -d "/var/lib/mysql/mysql" ]; then
-    echo "Initializing MariaDB..."
-    mysql_install_db --user=mysql --datadir=/var/lib/mysql > /dev/null
+echo "DROP DATABASE IF EXISTS test; 
+CREATE DATABASE IF NOT EXISTS ${SQL_DATABASE} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE USER IF NOT EXISTS '${SQL_USER}'@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON ${SQL_DATABASE}.* TO '${SQL_USER}'@'%' IDENTIFIED BY '${SQL_PASSWORD}';
+FLUSH PRIVILEGES;
+SHOW GRANTS FOR '${SQL_USER}';" > /etc/my.sql
 
-    echo "Starting temporary MariaDB server..."
-    mysqld --user=mysql --skip-networking --datadir=/var/lib/mysql &
-    pid="$!"
-
-    echo "Applying initialization script..."
-    mysql -uroot < /docker-entrypoint-initdb.d/init.sql
-
-    echo "Shutting down temporary MariaDB server..."
-    kill -s TERM "$pid"
-    wait "$pid"
-fi
-
-echo "Starting MariaDB server..."
-exec mysqld --user=mysql --datadir=/var/lib/mysql
+mysqld_safe --init-file=/etc/my.sql;
