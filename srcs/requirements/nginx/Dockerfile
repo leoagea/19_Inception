@@ -1,6 +1,6 @@
-FROM alpine:3.16
+FROM debian:bullseye
 
-RUN apk update && apk add \
+RUN apt-get update && apt-get install -y \
   nginx \
   openssl \
   && rm -rf /var/lib/apt/lists/*

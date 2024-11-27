@@ -1,6 +1,6 @@
-FROM alpine:3.16
+FROM debian:bullseye
 
-RUN apk update && apk add mariadb-client \
+RUN apt-get update && apt-get install -y mariadb-server \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --chmod=755 tools/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -8,4 +8,4 @@ COPY --chmod=755 tools/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY tools/setup.sh /
 
 RUN chmod +x /setup.sh
-ENTRYPOINT ["bash", "/setup.sh"]
+ENTRYPOINT ["sh", "/setup.sh"]
