@@ -1,7 +1,6 @@
 services:
   nginx:
-    build:
-      context: ./requirements/nginx
+    build: requirements/nginx
     container_name: nginx
     image: inception/nginx
     depends_on:
@@ -15,8 +14,7 @@ services:
     restart: always
 
   wordpress:
-    build:
-      context: ./requirements/wordpress
+    build: requirements/wordpress
     container_name: wordpress
     image: inception/wordpress
     depends_on:
@@ -29,8 +27,7 @@ services:
     restart: always
 
   mariadb:
-    build:
-      context: ./requirements/mariadb
+    build: requirements/mariadb
     container_name: mariadb
     image: inception/mariadb
     volumes:
