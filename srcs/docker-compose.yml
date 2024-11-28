@@ -1,4 +1,18 @@
 services:
+  nginx:
+    build:
+      context: ./requirements/nginx
+    container_name: nginx
+    image: inception/nginx
+    depends_on:
+      - wordpress
+    ports:
+      - 443:443
+    volumes:
+      - inception_app_data:/app
+    networks:
+      - inception_net
+    restart: always
   wordpress:
     build:
       context: ./requirements/wordpress
@@ -25,20 +39,7 @@ services:
       - inception_net
     restart: unless-stopped
 
-  nginx:
-    build:
-      context: ./requirements/nginx
-    container_name: nginx
-    image: inception/nginx
-    depends_on:
-      - wordpress
-    ports:
-      - 443:443
-    volumes:
-      - inception_app_data:/app
-    networks:
-      - inception_net
-    restart: always
+  
 
 networks:
   inception_net:
