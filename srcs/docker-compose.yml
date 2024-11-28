@@ -13,6 +13,7 @@ services:
     networks:
       - inception_net
     restart: always
+    
   wordpress:
     build:
       context: ./requirements/wordpress

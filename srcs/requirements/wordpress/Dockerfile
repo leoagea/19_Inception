@@ -2,7 +2,7 @@
 FROM debian:bullseye
 
 # Met à jour les paquets et installe les dépendances nécessaires
-RUN apt-get update && apt-get install -y \
+RUN apt-get update -y && apt-get install -y \
   wget \
   php7.4-fpm \
   php7.4 \
