@@ -57,4 +57,4 @@ RUN wget https://wordpress.org/wordpress-6.2.2.tar.gz \
 USER wordpress:wordpress
 
 # Définir le point d'entrée
-ENTRYPOINT ["./run.sh"]
+ENTRYPOINT ["/run.sh"]
