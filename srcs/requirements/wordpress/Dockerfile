@@ -31,8 +31,8 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
   && mv wp-cli.phar /bin/wp
 
 # Ajouter le script de démarrage
-ADD tools/setup.sh /
-RUN chmod +x /setup.sh
+ADD tools/run.sh /
+RUN chmod +x /run.sh
 
 # Copier le fichier de configuration PHP-FPM
 COPY tools/php-fpm.conf /etc/php/7.4/fpm/
@@ -57,4 +57,4 @@ RUN wget https://wordpress.org/wordpress-6.2.2.tar.gz \
 USER wordpress:wordpress
 
 # Définir le point d'entrée
-ENTRYPOINT ["/setup.sh"]
+ENTRYPOINT ["./run.sh"]
