@@ -1,0 +1,31 @@
+# Use the latest Debian as the base image
+FROM debian:bullseye
+
+# Set non-interactive mode for package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update package list and install required packages
+RUN apt-get update && apt-get install -y \
+    php \
+    php-cli \
+    php-mysqli \
+    php-pdo \
+    php-pdo-mysql \
+    apache2 \
+    libapache2-mod-php \
+    wget \
+    curl \
+    unzip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Enable PHP and restart Apache
+RUN a2enmod php7.4 && service apache2 restart
+
+# Download Adminer PHP file
+RUN wget https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php -O /var/www/html/adminer.php
+
+# Expose port 8080
+EXPOSE 8080
+
+# Start Apache in the foreground
+CMD ["apachectl", "-D", "FOREGROUND"]
