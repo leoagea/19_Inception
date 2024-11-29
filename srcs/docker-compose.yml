@@ -41,7 +41,7 @@ services:
   adminer:
     container_name: inception_adminer
     image: inception/adminer
-    build: requirements/adminer
+    build: requirements/bonus/adminer
     depends_on:
       - mariadb
     ports:
