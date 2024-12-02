@@ -28,6 +28,7 @@ allow_writeable_chroot=YES
 pasv_enable=YES
 pasv_min_port=40000
 pasv_max_port=40005
+port_enable=YES
 userlist_file=/etc/vsftpd.userlist" >> /etc/vsftpd.conf
 
 service vsftpd stop
