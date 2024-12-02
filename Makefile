@@ -1,14 +1,17 @@
-COMPOSE	=docker-compose -f srcs/docker-compose.yml
+COMPOSE     = docker-compose -f srcs/docker-compose.yml
 
-BUILD	=	$(COMPOSE) build --parallel --no-cache
+BUILD       = $(COMPOSE) build --parallel --no-cache
 
-UP	=	$(COMPOSE) up -d
+UP          = $(COMPOSE) up -d
 
-DOWN	=	$(COMPOSE) down
+DOWN        = $(COMPOSE) down
 
-RESTART	=	$(COMPOSE) down && $(COMPOSE) up -d
+RESTART     = $(COMPOSE) down && $(COMPOSE) up -d
 
-all: create build up
+SERVICES    = mariadb nginx wordpress
+BONUS_SERVICES = adminer ftpserver
+
+all: create build-core up-core
 
 create:
 	mkdir -p /home/lagea/data/mariadb
@@ -17,8 +20,20 @@ create:
 build:
 	$(BUILD)
 
+build-core:
+	$(COMPOSE) build --parallel --no-cache $(SERVICES)
+
+build-bonus:
+	$(COMPOSE) build --parallel --no-cache $(BONUS_SERVICES)
+
 up:
 	$(UP)
+
+up-core:
+	$(COMPOSE) up -d $(SERVICES)
+
+up-bonus:
+	$(COMPOSE) up -d $(BONUS_SERVICES)
 
 down:
 	$(DOWN)
@@ -33,6 +48,8 @@ clean:
 logs:
 	$(COMPOSE) logs -f
 
+bonus: build-bonus up-bonus
+
 re: clean all
 
-.PHONY: all create build up down restart clean logs re
+.PHONY: all create build up down restart clean logs re bonus
