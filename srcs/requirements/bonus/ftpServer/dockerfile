@@ -28,6 +28,9 @@ RUN mkdir -p /etc/vsftpd/ && \
     echo "secure_chroot_dir=/var/run/vsftpd/empty" >> /etc/vsftpd/vsftpd.conf && \
     echo "local_root=/var/www/html" >> /etc/vsftpd/vsftpd.conf
 
+RUN chmod -R 755 /var/www/html \ 
+    chown -R ftpuser:ftpuser /var/www/html
+
 # Expose FTP ports
 EXPOSE 21 21000-21010
 
