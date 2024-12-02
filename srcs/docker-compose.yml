@@ -58,6 +58,7 @@ services:
       - "21000-21010:21000-21010"
     volumes:
       - inception_app_data:/home/lagea/data/wordpress
+    env_file: .env
     depends_on:
       - wordpress
     
