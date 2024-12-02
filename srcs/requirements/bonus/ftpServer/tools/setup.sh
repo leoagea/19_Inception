@@ -20,12 +20,12 @@ chown $FTP_USER:$FTP_USER /home/$FTP_USER/ftp/files
 
 sed -i -r "s/#write_enable=YES/write_enable=YES/1"   /etc/vsftpd.conf
 sed -i -r "s/#chroot_local_user=YES/chroot_local_user=YES/1"   /etc/vsftpd.conf
+sed -i -r "s|local_root=.*|local_root=/home/$FTP_USER/ftp|" /etc/vsftpd.conf
 
 echo "
 local_enable=YES
 allow_writeable_chroot=YES
 pasv_enable=YES
-local_root=/home/lagea/ftp
 pasv_min_port=40000
 pasv_max_port=40005
 userlist_file=/etc/vsftpd.userlist" >> /etc/vsftpd.conf
