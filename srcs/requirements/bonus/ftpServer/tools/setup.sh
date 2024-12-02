@@ -4,7 +4,7 @@ service vsftpd start
 
 # Add the USER, change his password and declare him as the owner of wordpress folder and all subfolders
 
-adduser --disabled-password --gecos "" ${FTP_USER}
+adduser --disabled-password --gecos "" $FTP_USER
 
 echo "$FTP_USER:$FTP_PASSWORD" | /usr/sbin/chpasswd &> /dev/null
 
@@ -25,7 +25,7 @@ echo "
 local_enable=YES
 allow_writeable_chroot=YES
 pasv_enable=YES
-local_root=/home/sami/ftp
+local_root=/home/lagea/ftp
 pasv_min_port=40000
 pasv_max_port=40005
 userlist_file=/etc/vsftpd.userlist" >> /etc/vsftpd.conf
