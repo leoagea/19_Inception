@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY ./tools/setup.sh /
+RUN chmod +x /setup.sh
 
 # Command to start vsftpd
 CMD ["/setup.sh"]
