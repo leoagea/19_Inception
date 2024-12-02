@@ -6,7 +6,7 @@ service vsftpd start
 
 echo "$FTP_USER"
 
-adduser $FTP_USER --disabled-password
+adduser lagea --disabled-password
 
 echo "$FTP_USER:$FTP_PASSWORD" | /usr/sbin/chpasswd &> /dev/null
 
