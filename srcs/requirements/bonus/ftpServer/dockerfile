@@ -1,0 +1,35 @@
+# Use Debian as the base image
+FROM debian:bullseye
+
+# Set non-interactive mode for package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update and install required packages
+RUN apt-get update && apt-get install -y \
+    vsftpd \
+    ftp \
+    openssl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Create FTP user and group
+RUN useradd -m -s /bin/bash ftpuser && echo "ftpuser:password" | chpasswd
+
+# Configure vsftpd
+RUN mkdir -p /etc/vsftpd/ && \
+    echo "listen=YES" > /etc/vsftpd/vsftpd.conf && \
+    echo "anonymous_enable=NO" >> /etc/vsftpd/vsftpd.conf && \
+    echo "local_enable=YES" >> /etc/vsftpd/vsftpd.conf && \
+    echo "write_enable=YES" >> /etc/vsftpd/vsftpd.conf && \
+    echo "chroot_local_user=YES" >> /etc/vsftpd/vsftpd.conf && \
+    echo "allow_writeable_chroot=YES" >> /etc/vsftpd/vsftpd.conf && \
+    echo "pasv_enable=YES" >> /etc/vsftpd/vsftpd.conf && \
+    echo "pasv_min_port=21000" >> /etc/vsftpd/vsftpd.conf && \
+    echo "pasv_max_port=21010" >> /etc/vsftpd/vsftpd.conf && \
+    echo "secure_chroot_dir=/var/run/vsftpd/empty" >> /etc/vsftpd/vsftpd.conf && \
+    echo "local_root=/var/www/html" >> /etc/vsftpd/vsftpd.conf
+
+# Expose FTP ports
+EXPOSE 21 21000-21010
+
+# Command to start vsftpd
+CMD ["/usr/sbin/vsftpd", "/etc/vsftpd/vsftpd.conf"]
