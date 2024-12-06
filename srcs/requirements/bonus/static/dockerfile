@@ -1,7 +1,7 @@
 FROM debian:bullseye
 
 RUN apt-get update -y && apt-get upgrade -y \
-        apt-get install -y nginx
+        && apt-get install -y nginx
 
 COPY ./tools/website /var/www/html
 
