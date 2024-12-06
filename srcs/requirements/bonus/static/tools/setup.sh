@@ -8,7 +8,7 @@ http {
     server {
         listen 1200;
         root /var/www/html;
-        server_name lagea.42.fr;
+        server_name lagea.42.fr/static;
         index index.html;
     }
 }
