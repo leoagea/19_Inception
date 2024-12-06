@@ -74,6 +74,20 @@ services:
       - inception_net
     restart: always
 
+  static:
+    container_name: inception_static
+    image: inception/static
+    build: requirements/bonus/static
+    env_file:
+      - .env
+    ports:
+      - target: 1200
+        published: 1200
+    networks:
+      - inception
+    restart:
+      on-failure
+
 networks:
   inception_net:
     driver: bridge
