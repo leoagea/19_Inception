@@ -84,7 +84,7 @@ services:
       - target: 1200
         published: 1200
     networks:
-      - inception
+      - inception_net
     restart:
       on-failure
 
