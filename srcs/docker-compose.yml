@@ -78,15 +78,12 @@ services:
     container_name: inception_static
     image: inception/static
     build: requirements/bonus/static
-    env_file:
-      - .env
     ports:
-      - target: 1200
-        published: 1200
+      - "1200:80" # Map host port 1200 to container's port 80
     networks:
       - inception_net
-    restart:
-      on-failure
+    restart: on-failure
+
 
 networks:
   inception_net:
