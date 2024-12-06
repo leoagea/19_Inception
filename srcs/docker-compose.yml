@@ -67,7 +67,7 @@ services:
     image: inception/redis
     build: requirements/bonus/redis
     volumes:
-     - wordpress:/var/www/html
+     - inception_app_data:/app
     depends_on:
       - wordpress
     networks:
