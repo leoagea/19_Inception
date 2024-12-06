@@ -9,7 +9,7 @@ DOWN        = $(COMPOSE) down
 RESTART     = $(COMPOSE) down && $(COMPOSE) up -d
 
 SERVICES    = mariadb nginx wordpress
-BONUS_SERVICES = adminer ftpserver
+BONUS_SERVICES = adminer ftpserver redis
 
 all: create build-core up-core
 

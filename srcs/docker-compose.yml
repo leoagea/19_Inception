@@ -62,6 +62,18 @@ services:
     depends_on:
       - wordpress
     
+  redis:
+    container_name: inception/redis
+    image: inception/redis
+    build: requirements/bonus/redis
+    volumes:
+     - wordpress:/var/www/html
+    depends_on:
+      - wordpress
+    networks:
+      - inception_net
+    restart: always
+
 networks:
   inception_net:
     driver: bridge
