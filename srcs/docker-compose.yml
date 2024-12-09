@@ -83,23 +83,6 @@ services:
     #  - "80:80"
     #restart: always
 
-  cadvisor:
-    container_name: inception_cadvisor
-    build: requirements/bonus/cadvisor
-    image: 42_cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:ro
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /dev/disk/:/dev/disk:ro
-    networks:
-        - monitoring_net
-    command:
-      - '-port=7000'
-      - '-url_base_prefix=/cadvisor'
-    restart: unless-stopped
-
 
 networks:
   inception_net:
