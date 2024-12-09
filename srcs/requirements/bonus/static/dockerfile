@@ -1,15 +1,29 @@
+# Start with Debian Bullseye as the base image
 FROM debian:bullseye
 
-RUN apt-get update -y && apt-get upgrade -y \
-        && apt-get install -y nginx
+# Install nginx
+RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install -y nginx && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
+# Create the necessary directory for nginx configuration (fixes your issue)
+RUN mkdir -p /etc/nginx/http.d
+
+# Write a simple nginx configuration
 RUN echo "server {" > /etc/nginx/http.d/default.conf && \
-        echo "root    /var/www;" >> /etc/nginx/http.d/default.conf && \
-        echo "location / {" >> /etc/nginx/http.d/default.conf && \
-        echo "    try_files \$uri /index.html;" >> /etc/nginx/http.d/default.conf && \
-        echo "}}" >> /etc/nginx/http.d/default.conf
-    
-COPY requirements/bonus/static/website/* /var/www/
+    echo "    listen 80;" >> /etc/nginx/http.d/default.conf && \
+    echo "    root /var/www;" >> /etc/nginx/http.d/default.conf && \
+    echo "    location / {" >> /etc/nginx/http.d/default.conf && \
+    echo "        try_files \$uri /index.html;" >> /etc/nginx/http.d/default.conf && \
+    echo "    }" >> /etc/nginx/http.d/default.conf && \
+    echo "}" >> /etc/nginx/http.d/default.conf
 
+# Copy the static website files into /var/www
+COPY tools/website /var/www
+
+# Expose port 80
 EXPOSE 80
+
+# Start nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
