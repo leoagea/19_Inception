@@ -48,10 +48,9 @@ clean:
 logs:
 	$(COMPOSE) logs -f
 
-bonus:
+bonus: build-bonus up-bonus
 	docker stop inception_wordpress
 	docker stop inception_mariadb
-	build-bonus up-bonus
 
 re: clean all
 
