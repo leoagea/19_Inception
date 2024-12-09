@@ -9,7 +9,7 @@ DOWN        = $(COMPOSE) down
 RESTART     = $(COMPOSE) down && $(COMPOSE) up -d
 
 SERVICES    = mariadb nginx wordpress
-BONUS_SERVICES = adminer ftpserver redis static
+BONUS_SERVICES = adminer ftpserver redis 
 
 all: create build-core up-core
 
@@ -49,8 +49,12 @@ logs:
 	$(COMPOSE) logs -f
 
 bonus: build-bonus up-bonus
-	docker stop inception_wordpress
+
+static : 
 	docker stop inception_mariadb
+	docker stop inception_wordpress
+	docker-compose build requirements/bonus/static
+	docker-compose up -d static
 
 re: clean all
 
