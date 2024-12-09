@@ -78,15 +78,9 @@ services:
     container_name: inception_static
     image: inception/static
     build: requirements/bonus/static
-    env_file:
-      - .env
     ports:
-      - target: 1200
-        published: 1200
-    networks:
-      - inception_net
-    restart:
-      on-failure
+      - "80:80"
+    restart: always
 
 networks:
   inception_net:
