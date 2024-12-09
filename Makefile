@@ -53,7 +53,8 @@ bonus: build-bonus up-bonus
 static : 
 	docker stop inception_mariadb
 	docker stop inception_wordpress
-	docker-compose build requirements/bonus/static
+	cd requirements/bonus/static
+	docker-compose build static
 	docker-compose up -d static
 
 re: clean all
