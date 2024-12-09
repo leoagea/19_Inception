@@ -82,6 +82,23 @@ services:
       - "80:80"
     restart: always
 
+  prometheus:
+    container_name: inception_prometheus
+    build: requirements/monitoring/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus/data
+    networks:
+      - inception_net
+  
+  grafana:
+    container_name: inception_grafana
+    build: requirements/monitoring/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - inception_net
 
 networks:
   inception_net:
@@ -101,3 +118,6 @@ volumes:
       type: none
       o: bind
       device: '/home/lagea/data/mariadb'
+
+  prometheus_data:
+    driver: local
