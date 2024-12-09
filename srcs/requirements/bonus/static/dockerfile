@@ -3,7 +3,7 @@ FROM debian:bullseye
 RUN apt-get update -y && apt-get upgrade -y \
         && apt-get install -y nginx
 
-COPY ./tools/website /var/www/html
+COPY ./tools/website /var/www/
 
 COPY ./tools/setup.sh /
 RUN chmod +x /setup.sh && /setup.sh

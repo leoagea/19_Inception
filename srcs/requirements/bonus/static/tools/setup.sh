@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat <<EOF > /etc/nginx/nginx.conf
+cat <<EOF > /etc/nginx/http.d/default.conf
 events {}
 http {
     include /etc/nginx/mime.types;
