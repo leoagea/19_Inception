@@ -84,7 +84,7 @@ services:
 
   prometheus:
     container_name: inception_prometheus
-    build: requirements/monitoring/prometheus
+    build: requirements/bonus//prometheus
     ports:
       - "9090:9090"
     volumes:
@@ -94,7 +94,7 @@ services:
   
   grafana:
     container_name: inception_grafana
-    build: requirements/monitoring/grafana
+    build: requirements/bonus/grafana
     ports:
       - "3000:3000"
     networks:
