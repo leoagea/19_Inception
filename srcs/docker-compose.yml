@@ -93,6 +93,7 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
+    privileged: true # Allow privileged mode (if required)
     networks:
         - monitoring_net
     command:
