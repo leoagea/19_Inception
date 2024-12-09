@@ -11,6 +11,7 @@ services:
       - inception_app_data:/app
     networks:
       - inception_net
+      - monitoring_net
     restart: always
 
   wordpress:
@@ -93,7 +94,7 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
     networks:
-        - monitoring-network
+        - monitoring_net
     command:
       - '-port=7000'
       - '-url_base_prefix=/cadvisor'
@@ -102,6 +103,8 @@ services:
 
 networks:
   inception_net:
+    driver: bridge
+  monitoring_net:
     driver: bridge
 
 volumes:
