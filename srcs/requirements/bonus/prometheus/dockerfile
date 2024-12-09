@@ -24,7 +24,7 @@ EXPOSE 9090
 WORKDIR /prometheus
 
 # Copy configuration file
-COPY prometheus.yml /prometheus/prometheus.yml
+COPY ../../monitoring/prometheus/prometheus.yml /prometheus/prometheus.yml
 
 # Run Prometheus
 CMD ["./prometheus", "--config.file=/prometheus/prometheus.yml", "--storage.tsdb.path=/prometheus/data"]
