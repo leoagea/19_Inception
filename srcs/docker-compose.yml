@@ -84,6 +84,7 @@ services:
 
   prometheus:
     container_name: inception_prometheus
+    image: inception/prometheus
     build: requirements/bonus//prometheus
     ports:
       - "9090:9090"
@@ -94,11 +95,10 @@ services:
   
   grafana:
     container_name: inception_grafana
+    image: inception/grafana
     build: requirements/bonus/grafana
     ports:
       - "3000:3000"
-    depends_on:
-      - prometheus
     networks:
       - inception_net
 
