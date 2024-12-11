@@ -8,5 +8,5 @@ scrape_configs:
 
   - job_name: 'nginx'
     static_configs:
-      - targets: ['lagea>42.fr:443']
+      - targets: ['lagea.42.fr:443']
       
