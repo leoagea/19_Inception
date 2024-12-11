@@ -6,9 +6,3 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'nginx'
-    scheme: https
-    static_configs:
-      - targets: ['inception_nginx:443']
-    tls_config:
-      insecure_skip_verify: true
