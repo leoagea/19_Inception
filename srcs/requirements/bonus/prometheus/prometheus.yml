@@ -8,9 +8,5 @@ scrape_configs:
 
   - job_name: 'nginx'
     static_configs:
-      - targets: ['inception_nginx:443']
-
-  - job_name: 'redis'
-    static_configs:
-      - targets: ['inception_redis']
-
+      - targets: ['lagea>42.fr:443']
+      
