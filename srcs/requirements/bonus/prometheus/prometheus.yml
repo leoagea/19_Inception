@@ -7,6 +7,7 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   - job_name: 'nginx'
+    scheme: https
     static_configs:
-      - targets: ['lagea.42.fr:443']
+      - targets: ['inception_nginx:443']
       
