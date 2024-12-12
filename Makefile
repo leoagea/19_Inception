@@ -5,6 +5,7 @@ DOWN        = $(COMPOSE) down
 RESTART     = $(COMPOSE) down && $(COMPOSE) up -d
 
 SERVICES    = mariadb nginx wordpress
+BONUS_SERVICES = adminer
 
 all: create build-core up-core
 
@@ -15,8 +16,14 @@ create:
 build-core:
 	$(COMPOSE) build --no-cache $(SERVICES)
 
+build-bonus:
+	$(COMPOSE) build --no-cache $(BONUS_SERVICES)
+
 up-core:
 	$(COMPOSE) up -d $(SERVICES)
+
+up-bonus:
+	$(COMPOSE) up -d $(BONUS_SERVICES)
 
 down:
 	$(DOWN)
@@ -30,6 +37,8 @@ clean:
 
 logs:
 	$(COMPOSE) logs -f
+
+bonus: build-bonus up-bonus
 
 static : 
 	docker stop inception_mariadb

@@ -37,7 +37,18 @@ services:
       - inception_net
     restart: unless-stopped
 
-#bonus 
+#bonus
+  adminer:
+    container_name: inception_adminer
+    image: adminer
+    build: requirements/bonus/adminer
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:80" # Map port 8080 on the host to port 80 in the container
+    networks:
+      - inception_net
+
   static:
     container_name: inception_static
     image: static
