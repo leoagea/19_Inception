@@ -1,26 +1,22 @@
 COMPOSE     = docker-compose -f srcs/docker-compose.yml
 
-BUILD       = $(COMPOSE) build --parallel --no-cache
-
-UP          = $(COMPOSE) up -d
-
 DOWN        = $(COMPOSE) down
 
 RESTART     = $(COMPOSE) down && $(COMPOSE) up -d
 
 SERVICES    = mariadb nginx wordpress
 
-all: create build up
+all: create build-core up-core
 
 create:
 	mkdir -p /home/lagea/data/mariadb
 	mkdir -p /home/lagea/data/wordpress
 
-build:
-	$(BUILD)
+build-core:
+	$(COMPOSE) build --no-cache $(SERVICES)
 
-up:
-	$(UP)
+up-core:
+	$(COMPOSE) up -d $(SERVICES)
 
 down:
 	$(DOWN)
@@ -38,7 +34,7 @@ logs:
 static : 
 	docker stop inception_mariadb
 	docker stop inception_wordpress
-	$(COMPOSE) build --parallel --no-cache static
+	$(COMPOSE) build --no-cache static
 	$(COMPOSE) up -d static
 
 re: clean all
