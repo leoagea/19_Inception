@@ -1,7 +1,7 @@
 services:
   nginx:
     container_name: inception_nginx
-    image: inception/nginx
+    image: nginx
     build: requirements/nginx
     depends_on:
       - wordpress
@@ -15,7 +15,7 @@ services:
 
   wordpress:
     container_name: inception_wordpress
-    image: inception/wordpress
+    image: wordpress
     build: requirements/wordpress
     depends_on:
       - mariadb
@@ -28,7 +28,7 @@ services:
 
   mariadb:
     container_name: inception_mariadb
-    image: inception/mariadb
+    image: mariadb
     build: requirements/mariadb
     volumes:
       - inception_db_data:/var/lib/mysql
@@ -40,7 +40,7 @@ services:
 #bonus 
   adminer:
     container_name: inception_adminer
-    image: inception/adminer
+    image: adminer
     build: requirements/bonus/adminer
     depends_on:
       - mariadb
@@ -51,7 +51,7 @@ services:
 
   ftpserver:
     container_name: inception_ftpserver
-    image: inception/ftpserver
+    image: tpserver
     build: requirements/bonus/ftpServer
     ports:
       - "21:21"
@@ -64,7 +64,7 @@ services:
     
   redis:
     container_name: inception_redis
-    image: inception/redis
+    image: redis
     build: requirements/bonus/redis
     volumes:
      - inception_app_data:/home/lagea/data/wordpress
@@ -76,31 +76,11 @@ services:
 
   static:
     container_name: inception_static
-    image: inception/static
+    image: static
     build: requirements/bonus/static
     ports:
       - "80:80"
     restart: always
-
-  prometheus:
-    container_name: inception_prometheus
-    image: inception/prometheus
-    build: requirements/bonus//prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - prometheus_data:/prometheus/data
-    networks:
-      - inception_net
-  
-  grafana:
-    container_name: inception_grafana
-    image: inception/grafana
-    build: requirements/bonus/grafana
-    ports:
-      - "3000:3000"
-    networks:
-      - inception_net
 
 networks:
   inception_net:
@@ -120,6 +100,3 @@ volumes:
       type: none
       o: bind
       device: '/home/lagea/data/mariadb'
-
-  prometheus_data:
-    driver: local
