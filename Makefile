@@ -48,4 +48,4 @@ static :
 
 re: clean all
 
-.PHONY: all create build up down restart clean logs re bonus static
+.PHONY: all create build-core build-bonus up-core up-bonus down restart clean logs re bonus static re
