@@ -40,7 +40,7 @@ down:
 
 down-bonus:
 	docker exec inception_wordpress  wp redis disable
-	$(DOWN)
+	$(DOWN) $(BONUS_SERVICES)
 
 restart:
 	$(RESTART)
