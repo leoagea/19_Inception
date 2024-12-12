@@ -4,7 +4,7 @@ BUILD       = $(COMPOSE) build --parallel --no-cache
 
 UP          = $(COMPOSE) up -d
 
-DOWN        = $(COMPOSE) down -v
+DOWN        = $(COMPOSE) down
 
 RESTART     = $(COMPOSE) down && $(COMPOSE) up -d
 
