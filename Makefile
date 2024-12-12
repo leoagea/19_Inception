@@ -47,7 +47,7 @@ restart:
 
 clean:
 	$(DOWN) --volumes
-	docker rmi $(docker images -a -q)
+	docker rmi -f $$(docker images -a -q)
 
 logs:
 	$(COMPOSE) logs -f
