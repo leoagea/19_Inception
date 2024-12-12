@@ -38,30 +38,6 @@ services:
     restart: unless-stopped
 
 #bonus 
-  adminer:
-    container_name: inception_adminer
-    image: adminer
-    build: requirements/bonus/adminer
-    depends_on:
-      - mariadb
-    ports:
-      - "8080:80" # Map port 8080 on the host to port 80 in the container
-    networks:
-      - inception_net
-
-  ftpserver:
-    container_name: inception_ftpserver
-    image: tpserver
-    build: requirements/bonus/ftpServer
-    ports:
-      - "21:21"
-      - "40000-40005:40000-40005"
-    volumes:
-      - inception_app_data:/home/lagea/data/wordpress
-    env_file: .env
-    depends_on:
-      - wordpress
-
   static:
     container_name: inception_static
     image: static
