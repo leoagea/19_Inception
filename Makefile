@@ -38,6 +38,10 @@ up-bonus:
 down:
 	$(DOWN)
 
+down-bonus:
+	docker exec inception_wordpress  wp redis disable
+	$(DOWN)
+
 restart:
 	$(RESTART)
 
@@ -55,6 +59,7 @@ static :
 	docker stop inception_wordpress
 	$(COMPOSE) build --parallel --no-cache static
 	$(COMPOSE) up -d static
+
 re: clean all
 
 .PHONY: all create build up down restart clean logs re bonus
