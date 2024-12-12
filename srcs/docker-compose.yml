@@ -61,18 +61,6 @@ services:
     env_file: .env
     depends_on:
       - wordpress
-    
-  redis:
-    container_name: inception_redis
-    image: redis
-    build: requirements/bonus/redis
-    volumes:
-     - inception_app_data:/home/lagea/data/wordpress
-    depends_on:
-      - wordpress
-    networks:
-      - inception_net
-    restart: always
 
   static:
     container_name: inception_static
