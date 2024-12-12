@@ -10,7 +10,7 @@ RESTART     = $(COMPOSE) down && $(COMPOSE) up -d
 
 SERVICES    = mariadb nginx wordpress
 
-all: create build-core up-core
+all: create build up
 
 create:
 	mkdir -p /home/lagea/data/mariadb
