@@ -52,14 +52,5 @@ else
 	run_install;
 fi
 
-# Vérifier si Redis est accessible
-if nc -z redis 6379; then
-  echo "Redis est accessible. Activation du cache..."
-  wp redis enable
-else
-  echo "Redis n'est pas accessible. Cache désactivé."
-  wp redis disable
-fi
-
 echo "[INFO] Starting php-fpm"
 php-fpm -F

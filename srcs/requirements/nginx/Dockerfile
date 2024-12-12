@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y \
   openssl \
   && rm -rf /var/lib/apt/lists/*
 
-#RUN rm /etc/nginx/sites-enabled/default
 COPY conf/default.conf /etc/nginx/sites-enabled/
 
 RUN mkdir -p /etc/nginx/ssl && openssl req -x509 \
